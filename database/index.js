@@ -22,12 +22,12 @@ const authors = [
     {
       id: 1,
       name: "pavan",
-      books: ["12345ONE"],
+      books: ["1234ONE"],
     },
     {
       id: 2,
       name: "Deepak",
-      books: ["12345ONE"],
+      books: ["1234ONE"],
     },
   ];
   
@@ -35,7 +35,12 @@ const authors = [
     {
       id: 1,
       name: "Chakra",
-      books: ["12345ONE"],
+      books: ["1234ONE"],
+    },
+    {
+      id: 2,
+      name: "Johny publication",
+      books: [],
     },
   ];
   

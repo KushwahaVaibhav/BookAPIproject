@@ -15,6 +15,9 @@ shapeAI.get("/",(req,res)=>{
 
 
 shapeAI.use(express.json());
+
+//EstablishDatabase connection
+
 /*
 Route           /
 description     get all books
@@ -112,4 +115,97 @@ Method          GET
 shapeAI.get("publications",(req,res)=>{
  return res.json({publications:database.publications})
 });
+ /*
+Route           /book/new
+description     addnew books
+access          PUBLIC
+Parameters      NONE
+Method          POST
+
+*/
+shapeAI.post("/book/new",(req,res)=>{
+    //body
+    const {newBook} =req.body;
+    database.books.push(newBook);
+    return res.json({books:database.books,message:"books were added"});
+});
+/*
+Route           /book/new
+description     addnew author
+access          PUBLIC
+Parameters      NONE
+Method          POST
+
+*/
+
+shapeAI.post("/author/new",(req,res)=>{
+    const {newAuthor} =req.body;
+    database.books.push(newBook);
+    return res.json({authors:database.authors,message:"author  was added"});
+});
+ /*
+Route           /book/update
+description     update title of a book
+access          PUBLIC
+Parameters      ISBN
+Method          PUT
+
+*/
+shapeAI.put("/book/update/:isbn",(req,res)=>{
+   //map or foreach ->
+   database.books.forEach((book)=>{
+ if(book.ISBN===req.params.isbn){
+     book.title=req.body.bookTitle;
+     return;
+ } 
+   });
+   return res.json({books:database.books});
+});
+/*
+Route           /book/author/update/:isbn
+description     update/add
+access          PUBLIC
+Parameters      ISBN
+Method          PUT
+
+*/
+shapeAI.put("/book/author/update/:isbn",(req,res)=>{
+
+    database.book.forEach((book)=>{
+   if(book.ISBN===req.params.isbn) return book.authors.push(req.body.newAuthor);
+    });
+    database.authors.forEach((author)=>{
+        if(author.id===req.body.newAuthor)
+        return author.books.push(req.params.isbn);
+    });
+    return res.json({books:database.books,authors:database.authors,message:"New author was added",
+    });
+});
+
+/*
+Route           /publication/update/book
+description     update/add new book to a publication
+access          PUBLIC
+Parameters      NONE
+Method          PUT
+
+*/
+shapeAI.put("publication/update/book/:isbn",(req,res)=>{
+//update the publication database
+database.publications.forEach((publication)=>{
+    if(publication.id===req.body.pubid){
+        return publication.books.push(req.params.isbn);
+    }
+});
+database.books.forEach((book)=>{
+   if(book.ISBN===req.params.isbn){
+       book.publication=req.body.pubid;
+       return;
+   }
+});
+return res.json({books:database.books,publications:database.publications,message:"successfully updatedpublication",
+})
+});
+
+
 shapeAI.listen(3000,()=>console.log("hey!!! server is running"));
